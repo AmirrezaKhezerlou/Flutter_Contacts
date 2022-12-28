@@ -1,3 +1,4 @@
+import 'package:contacts/Views/add.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -32,7 +33,12 @@ class Home_Controller extends GetxController {
 
   void Make_Call(String Number)async
   {
-    bool? res = await FlutterPhoneDirectCaller.callNumber(Number);
+    if(Number.isNotEmpty){
+      bool? res = await FlutterPhoneDirectCaller.callNumber(Number);
+    }else{
+      Get.snackbar('Error', 'No Phone Number Found !');
+    }
+
   }
 
 void SendSms(String Number)async
@@ -40,6 +46,11 @@ void SendSms(String Number)async
   await sendSMS(message: '', recipients: [Number],sendDirect: false);
 }
 
+void LetsAddContact(){
+    Get.to(()=>Add(),
+    transition: Transition.fadeIn,
+    );
+}
 
 
 }

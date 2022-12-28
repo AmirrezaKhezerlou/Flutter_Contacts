@@ -17,9 +17,8 @@ class Home extends StatelessWidget {
           Header_Widget(height),
           Row(
             children: [
-
               Container(
-                width: width ,
+                width: width,
                 height: height * 4 / 5,
                 child: Obx(
                   () => ListView.builder(
@@ -40,15 +39,31 @@ class Home extends StatelessWidget {
                             size: 30,
                           ),
                           confirmDismiss: (direction) => Future.delayed(
-                            const Duration(seconds: 1),
+                            const Duration(milliseconds: 200),
                             () {
                               print(direction.toString());
                               print(home_controller.contacts[index].avatar);
-                              if(direction == DismissibleTileDirection.rightToLeft){
-                                home_controller.Make_Call(home_controller.contacts[index].phones![0].value!);
+                              if (direction ==
+                                  DismissibleTileDirection.rightToLeft) {
+                                if (home_controller
+                                    .contacts[index].phones!.isNotEmpty) {
+                                  home_controller.Make_Call(home_controller
+                                      .contacts[index].phones![0].value!);
+                                } else {
+                                  Get.snackbar(
+                                      'Error', 'No Phone Number Found !');
+                                }
                               }
-                              if(direction == DismissibleTileDirection.leftToRight){
-                                home_controller.SendSms(home_controller.contacts[index].phones![0].value!);
+                              if (direction ==
+                                  DismissibleTileDirection.leftToRight) {
+                                if (home_controller
+                                    .contacts[index].phones!.isNotEmpty) {
+                                  home_controller.SendSms(home_controller
+                                      .contacts[index].phones![0].value!);
+                                }else{
+                                  Get.snackbar(
+                                      'Error', 'No Phone Number Found !');
+                                }
                               }
                               return false;
                             },
@@ -64,8 +79,10 @@ class Home extends StatelessWidget {
                                     Expanded(
                                       child: AutoSizeText(
                                         home_controller
-                                          .contacts[index].displayName!,
-                                        style: TextStyle(fontSize: 20,),
+                                            .contacts[index].displayName!,
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                        ),
                                         overflow: TextOverflow.ellipsis,
                                         presetFontSizes: [20, 17, 15],
                                         maxLines: 1,
@@ -131,11 +148,14 @@ class Home extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-
+        onPressed: () {
+          home_controller.LetsAddContact();
         },
         backgroundColor: Color(0xFFfa709a),
-        child: Icon(Icons.add,color: Colors.white,),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
       floatingActionButtonAnimator: NoScalingAnimation(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -168,10 +188,10 @@ class Home extends StatelessWidget {
   }
 }
 
-
 class NoScalingAnimation extends FloatingActionButtonAnimator {
   @override
-  Offset getOffset({required Offset begin, required Offset end, required double progress}) {
+  Offset getOffset(
+      {required Offset begin, required Offset end, required double progress}) {
     return end;
   }
 
